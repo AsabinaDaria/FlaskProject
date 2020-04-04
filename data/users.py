@@ -1,8 +1,8 @@
 import datetime
-import db_session
+from . import db_session 
 import sqlalchemy
 from sqlalchemy import *
-from db_session import SqlAlchemyBase
+from .db_session import SqlAlchemyBase
 
 
 class User(SqlAlchemyBase):
@@ -19,3 +19,9 @@ class User(SqlAlchemyBase):
     file = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     sex = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     remember_me = sqlalchemy.Column(sqlalchemy.Boolean)
+
+    def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.hashed_password, password)

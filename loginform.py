@@ -19,6 +19,7 @@ class LoginForm(FlaskForm):
     surname = StringField('Фамилия', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
+    password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     about = TextAreaField('Статус', validators=None)
     file = FileField('Аватарка', validators=None)
     sex = SelectField('Укажите Ваш пол:', choices=[('1', 'женский'), ('2', 'мужской')], validators=None)
@@ -46,6 +47,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         db_session.global_init("db/ff.sqlite")
+        if form.password.data != form.password_again.data:
+            return render_template('login.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают")
+        session = db_session.create_session()
+        if session.query(User).filter(User.login == form.login.data).first():
+            print(9)
+            return render_template('login.html', title='Регистрация',
+                                   form=form,
+                                   message="Такой пользователь уже есть")
         user = User()
         user.name = form.name.data
         user.surname = form.surname.data
@@ -64,12 +75,7 @@ def login():
 
 @app.route('/account_creation', methods=['GET', 'POST'])
 def account_creation():
-    form = LoginForm()
-    db_session.global_init("db/ff.sqlite")
-    session = db_session.create_session()
-    for user in session.query(User).all():
-        print(user.password)
-    return render_template('login.html', title='Авторизация', form=form)
+    return '''Success!!'''
 
 
 
@@ -85,4 +91,4 @@ def l():
 
 
 if __name__ == '__main__':
-    app.run(port=8087, host='127.0.0.1')
+    app.run(port=8088, host='127.0.0.1')
