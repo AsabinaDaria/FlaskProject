@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Регистрация</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}
+        {{ form.name(class="form-control", placeholder="Введите имя") }}
+        {% for error in form.name.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.surname.label }}
+        {{ form.surname(class="form-control", placeholder="Введите фамилию") }}
+        {% for error in form.surname.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.login.label }}
+        {{ form.login(class="form-control", type="email", placeholder="Введите адрес почты" ) }}
+        {% for error in form.login.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}
+        {{ form.password(class="form-control", type="password") }}
+                {% for error in form.password.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.about.label }}
+        {{ form.about(class="form-control", сols="40", rows="3") }}<br>
+    </p>
+    <p>
+        {{ form.file.label }}
+        {{ form.file(type="file", class="form-control-file") }}<br>
+    </p>
+    <p>
+        {{ form.sex.label }}<br>
+        {{ form.sex(class="form-group") }}
+    </p>
+    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    {{ form.submit(type="reset", value="Очистить поля для входа", class="btn btn-dark") }}
+    {{ form.submit(type="submit", value="Зарегистрироваться", class="btn btn-dark") }}
+</form>
+{% endblock %}
