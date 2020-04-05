@@ -41,7 +41,10 @@ def index():
         session = db_session.create_session()
         if session.query(User).filter(User.login == form.login.data).first():
             if session.query(User).filter(User.password == form.password.data).first():
-                return redirect('/account_creation')
+                user_id = session.query(User).filter_by(login=form.login.data).first()
+                user_id = user_id.id
+                print(url_for('account', user_id=user_id, username=form.login.data[:form.login.data.find('@')]))
+                return redirect(url_for('account', user_id=user_id, username=form.login.data[:form.login.data.find('@')]))
             else:
                 return render_template('home.html', title='Вход',
                                    form=form,
@@ -50,7 +53,9 @@ def index():
             return render_template('home.html', title='Вход',
                                    form=form,
                                    message="Неверно указан логин")
-        return redirect('/account_creation')
+        user_id = session.query(User).filter_by(login=form.login.data).first()
+        user_id = user_id.id
+        return redirect(url_for('account', user_id=user_id, username=form.login.data[:form.login.data.find('@')]))
     return render_template('home.html', title='Вход', form=form)
 
 
@@ -65,7 +70,6 @@ def login():
                                    message="Пароли не совпадают")
         session = db_session.create_session()
         if session.query(User).filter(User.login == form.login.data).first():
-            print(9)
             return render_template('login.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -85,13 +89,13 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/account_creation', methods=['GET', 'POST'])
-def account_creation():
-    return '''Success!!'''
+@app.route('/account/<int:user_id>/<username>', methods=['GET', 'POST'])
+def account(username, user_id):
+    return '''{{username}}'''
 
 
 
-#@app.route('/success', methods=['GET', 'POST'])
+#@app.route('/account/<id>', methods=['GET', 'POST'])
 #def l():
 #    form = LoginForm()
 #    db_session.global_init("db/ff.sqlite")
@@ -103,4 +107,4 @@ def account_creation():
 
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8081, host='127.0.0.1')
