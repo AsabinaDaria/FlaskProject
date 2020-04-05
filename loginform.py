@@ -91,6 +91,7 @@ def login():
 
 @app.route('/account/<int:user_id>/<username>', methods=['GET', 'POST'])
 def account(username, user_id):
+    print(username)
     return '''{{username}}'''
 
 
@@ -107,4 +108,4 @@ def account(username, user_id):
 
 
 if __name__ == '__main__':
-    app.run(port=8081, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.1')
