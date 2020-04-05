@@ -26,20 +26,32 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Регистрация')
 
-@app.route('/')
+
+class HomeForm(FlaskForm):
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    submit = SubmitField('Войти')
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return """<!doctype html>
-                <html>
-                <body>
-                 <h1>Чевота написано</h1>
-                    </div>
-                    <div>
-					    Microblog:
-					    <a href="/">Home</a>
-					    <a href="/register">Register</a>
-					</div>
-			  </body>
-			</html>"""
+    form = HomeForm()
+    if form.validate_on_submit():
+        db_session.global_init("db/ff.sqlite")
+        session = db_session.create_session()
+        if session.query(User).filter(User.login == form.login.data).first():
+            if session.query(User).filter(User.password == form.password.data).first():
+                return redirect('/account_creation')
+            else:
+                return render_template('home.html', title='Вход',
+                                   form=form,
+                                   message="Неверно указан пароль")
+        else:
+            return render_template('home.html', title='Вход',
+                                   form=form,
+                                   message="Неверно указан логин")
+        return redirect('/account_creation')
+    return render_template('home.html', title='Вход', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -69,7 +81,7 @@ def login():
         session = db_session.create_session()
         session.add(user)
         session.commit()
-        return redirect('/account_creation')
+        return redirect('/')
     return render_template('login.html', title='Авторизация', form=form)
 
 
@@ -79,16 +91,16 @@ def account_creation():
 
 
 
-@app.route('/success', methods=['GET', 'POST'])
-def l():
-    form = LoginForm()
-    db_session.global_init("db/ff.sqlite")
-    session = db_session.create_session()
-    for user in session.query(User).all():
-        print(user.password)
-    return render_template('login.html', title='Авторизация', form=form)
+#@app.route('/success', methods=['GET', 'POST'])
+#def l():
+#    form = LoginForm()
+#    db_session.global_init("db/ff.sqlite")
+#    session = db_session.create_session()
+#    for user in session.query(User).all():
+#        print(user.password)
+#    return render_template('login.html', title='Авторизация', form=form)
 
 
 
 if __name__ == '__main__':
-    app.run(port=8088, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.1')

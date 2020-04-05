@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Вход</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.login.label }}
+        {{ form.login(class="form-control", type="email", placeholder="Введите адрес почты" ) }}
+        {% for error in form.login.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}
+        {{ form.password(class="form-control", type="password") }}
+                {% for error in form.password.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    {{ form.submit(type="reset", value="Очистить поля для входа", class="btn btn-dark") }}
+    {{ form.submit(type="submit", value="Войти", class="btn btn-dark") }}
+    <div>
+  <p></p>
+  <p></p>
+    Новый пользователь?
+    <a href="/register">Регистрация</a>
+</div>
+<div>
+    Забыли пароль?
+    <a href="/">Восстановление</a>
+</div>
+</form>
+{% endblock %}
