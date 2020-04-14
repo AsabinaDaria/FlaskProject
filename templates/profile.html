@@ -1,4 +1,34 @@
-{% extends "base.html" %}
-
-{% block content %}
-{% endblock %}
+<!doctype html>
+                <html>
+                  <head>
+                    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" 
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                    <title>{{title}}</title>
+                  </head>
+                  <body>
+                    <h1>{{name}} {{surname}}</h1>
+                    <div class="row" style="width:100%">
+                        <div class="col-xs-12 col-md-8"><img src={{file}} alt="здесь должна была быть картинка, но не нашлась" style="width:25%">
+                        <div class="alert alert-primary" role="alert">
+                        {{about}}
+                        </div>
+                        <div>{{sex}}</div></div>
+                        <div class="col-xs-6 col-md-4">
+                            <select name="js-select-chat" class="form-control">
+                                <option value="1">Имя 1</option>
+                                <option value="2">Имя 2</option>
+                            </select>
+                            <p style="text-align:left; border:1px solid black">incoming message</p>
+                            <p style="text-align:right; border:1px solid black">outcoming message</p>
+                            <input type="text" name="message" required>
+                            <input type="button" value="отправить" name="send">
+                        </div>
+                    </div>
+                    
+                  </body>
+                </html>
