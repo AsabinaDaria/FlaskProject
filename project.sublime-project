@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": "data"
+		},
+		{
+			"path": "new_project"
+		},
+		{
+			"path": "static"
+		},
+		{
+			"path": "templates"
+		}
+	]
+}

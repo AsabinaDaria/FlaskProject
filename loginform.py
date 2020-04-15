@@ -25,11 +25,13 @@ class LoginForm(FlaskForm):
     surname = StringField('Фамилия', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
+    password_again = PasswordField(
+        'Повторите пароль', validators=[DataRequired()])
     about = TextAreaField('Статус', validators=None)
     file = FileField(validators=None)
     #file = FileField(validators=[FileRequired()])
-    sex = SelectField('Укажите Ваш пол:', choices=[('1', 'женский'), ('2', 'мужской')], validators=None)
+    sex = SelectField('Укажите Ваш пол:', choices=[
+                      ('1', 'женский'), ('2', 'мужской')], validators=None)
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Регистрация')
 
@@ -41,6 +43,7 @@ class HomeForm(FlaskForm):
 # username=form.login.data[:form.login.data.find('@')]),
 # print(url_for('account', user_id=user_id,  username=username)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = HomeForm()
@@ -49,16 +52,17 @@ def index():
         session = db_session.create_session()
         if session.query(User).filter(User.login == form.login.data).first():
             if session.query(User).filter(User.password == form.password.data).first():
-                user_me = session.query(User).filter_by(login=form.login.data).first()
+                user_me = session.query(User).filter_by(
+                    login=form.login.data).first()
                 user_id = user_me.id
-                return redirect(url_for('account', user_id=user_id))
+                return redirect(url_for('account_page', user_id=user_id))
             else:
                 return render_template('home.html', title='Вход', form=form, message="Неверно указан пароль")
         else:
             return render_template('home.html', title='Вход', form=form, message="Неверно указан логин")
         user_me = session.query(User).filter_by(login=form.login.data).first()
         user_id = user_me.id
-        return redirect(url_for('account', user_id=user_id))
+        return redirect(url_for('account_page', user_id=user_id))
     return render_template('home.html', title='Вход', form=form)
 
 
@@ -79,7 +83,7 @@ def login():
                                    form=form,
                                    message="Такой пользователь уже есть")
         print(999)
-        
+
         user = User()
         user.name = form.name.data
         user.surname = form.surname.data
@@ -96,15 +100,17 @@ def login():
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)
         photo = str(user.id) + str(file_extension[1])
-        file.save(os.path.join('C:/Users/я/Desktop/new_project/static/img', photo))
+        file.save(os.path.join(
+            'C:/python/project/static/img', photo))
         user.file = photo
         session.commit()
+        return redirect('/')
         return redirect('/')
     return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/account/<int:user_id>', methods=['GET', 'POST'])
-def account(user_id):
+@app.route('/account/<int:user_id>/acc_page', methods=['GET', 'POST'])
+def account_page(user_id):
     db_session.global_init("db/ff.sqlite")
     session = db_session.create_session()
     user_me = session.query(User).filter(User.id == user_id).first()
@@ -114,12 +120,39 @@ def account(user_id):
     about = user_me.about
     sex = user_me.sex
     filename = str('img/' + str(user_id) + '.jpg')
-    return render_template('profile.html', title=name, name=name, surname=surname, file=url_for('static', filename=filename), about=about, sex=sex)
+    return render_template('profile_page.html', title=name, name=name, surname=surname, file=url_for('static', filename=filename), about=about, sex=sex)
 
 
+@app.route('/account/<int:user_id>/mail_page', methods=['GET', 'POST'])
+def account_mail(user_id):
+    db_session.global_init("db/ff.sqlite")
+    session = db_session.create_session()
+    user_me = session.query(User).filter(User.id == user_id).first()
+    user_pict = user_me.file
+    name = user_me.name
+    surname = user_me.surname
+    about = user_me.about
+    sex = user_me.sex
+    filename = str('img/' + str(user_id) + '.jpg')
+    return render_template('profile_mail.html', title=name, name=name, surname=surname, file=url_for('static', filename=filename), about=about, sex=sex, user_id=user_id)
 
-#@app.route('/account/<id>', methods=['GET', 'POST'])
-#def l():
+
+@app.route('/account/<int:user_id>/search_page', methods=['GET', 'POST'])
+def account_search(user_id):
+    db_session.global_init("db/ff.sqlite")
+    session = db_session.create_session()
+    user_me = session.query(User).filter(User.id == user_id).first()
+    user_pict = user_me.file
+    name = user_me.name
+    surname = user_me.surname
+    about = user_me.about
+    sex = user_me.sex
+    filename = str('img/' + str(user_id) + '.jpg')
+    return render_template('profile_search.html', title=name, name=name, surname=surname, file=url_for('static', filename=filename), about=about, sex=sex, user_id=user_id)
+
+
+# @app.route('/account/<id>', methods=['GET', 'POST'])
+# def l():
 #    form = LoginForm()
 #    db_session.global_init("db/ff.sqlite")
 #    session = db_session.create_session()
@@ -127,7 +160,5 @@ def account(user_id):
 #        print(user.password)
 #    return render_template('login.html', title='Авторизация', form=form)
 
-
-
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8088, host='127.0.0.1')
