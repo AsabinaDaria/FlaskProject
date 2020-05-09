@@ -16,13 +16,12 @@ from werkzeug.utils import *
 import hashlib
 import binascii
 import os
-from flask_httpauth import HTTPBasicAuth
 from sqlalchemy.orm import sessionmaker
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 Bootstrap(app)
-auth = HTTPBasicAuth()
 engine = create_engine('sqlite:///ff.db', echo=True)
 #login = LoginManager(app)
 #DBSession = sessionmaker(bind=engine)
@@ -225,3 +224,4 @@ def account_search(user_id):
 
 if __name__ == '__main__':
     app.run(debug=True, port=8088, host='127.0.0.1')
+
