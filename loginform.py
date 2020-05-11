@@ -225,10 +225,11 @@ def account_mail_chat(user_id, whom):
     messages_gotten = []
     for i in DBsession.query(Message_to_chat).filter(Message_to_chat.id):
         if i.chat_id == user_id and i.direction == whom:
-            messages_gotten.append(name + ':' + i.message)
+            messages_gotten.append(name + ': ' + i.message)
         if i.direction == user_id and i.chat_id == whom:
-            messages_gotten.append(whom_name + ':' + i.message)
-    messages_gotten = ' '.join(messages_gotten)
+            messages_gotten.append(whom_name + ': ' + i.message)
+    print(messages_gotten)
+    #messages_gotten = ' '.join(messages_gotten)
     if form.validate_on_submit():
         message_to_chat = Message_to_chat()
         for i in DBsession.query(Message_to_chat).filter(Message_to_chat.id):
@@ -267,4 +268,4 @@ def account_search(user_id):
 
 if __name__ == '__main__':
     db_session.global_init("db/ff.sqlite")
-    app.run(debug=True, port=8080, host='127.0.0.1')
+    app.run(debug=True, port=8089, host='127.0.0.1')
