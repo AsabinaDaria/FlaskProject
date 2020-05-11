@@ -9,7 +9,6 @@
           crossorigin="anonymous">
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
           <link rel="stylesheet" type='text/css' href="{{url_for('static', filename='css/style.css')}}">
-          <link rel="stylesheet" type='text/css' href="{{url_for('static', filename='css/style1.css')}}">
                     <title>{{title}}</title>
                   </head>
                   <body>
@@ -33,34 +32,11 @@
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
                     <button class="accordion">Фото</button>
-                    <!-- Container for the image gallery -->
-                      <div class="container">
+                    <div class="panel">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
 
-                      <!-- Full-width images with number text -->
-                      <ul>
-                      {% for i in count %}
-                      <div class="mySlides">
-                        <div class="numbertext">{{i}} / {{count[-1]}}</div>
-                          <img src={{users_files[i-1]}} style="width:50%">
-                      </div>
-                      {% endfor %}
-                      </ul>
-                      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                      <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                    
-                      <!-- Image text -->
-                      <div class="caption-container">
-                        <p id="caption"></p>
-                      </div>
-                      <ul>
-                      {% for i in count %}
-                        <div class="row">
-                          <div class="column">
-                            <img class="demo cursor" src={{users_files[i-1]}} style="width:100%" onclick="currentSlide({{ i }})" alt='MEME'>
-                          </div>
-                      {% endfor %}
-                      </ul>
-                      </div>
+
 
                     <div id="mySidenav" class="sidenav">
                       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -72,9 +48,7 @@
 
 
 
-                    <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}">
-                    </script>
-                    <script type="text/javascript" src="{{url_for('static', filename='js/main1.js')}}">
+                    <script src="{{url_for('static', filename='js/main.js')}}">
                     </script>
                     <script type="text/javascript">
                       function openNav() {

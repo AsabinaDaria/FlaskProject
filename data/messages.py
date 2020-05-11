@@ -1,4 +1,3 @@
-
 from . import db_session 
 import sqlalchemy
 from sqlalchemy import *
