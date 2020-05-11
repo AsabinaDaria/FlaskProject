@@ -190,6 +190,7 @@ def account_mail(user_id):
     about = user_me.about
     sex = user_me.sex
     filename = str('img/' + str(user_id) + '.jpg')
+    user_me = DBsession.query(User).filter(User.id == user_id).first()
     whom = form.directionform.data
     if form.validate_on_submit():
         return redirect(url_for('account_mail_chat', user_id=user_id, whom=whom))
