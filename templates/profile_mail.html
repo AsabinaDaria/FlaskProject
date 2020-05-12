@@ -146,10 +146,11 @@ body {margin:0; background-color: #fff}
                         </div>
                         <div id="mySidenav" class="sidenav">
                           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                          <a href="#">About</a>
-                          <a href="#">Services</a>
-                          <a href="#">Clients</a>
-                          <a href="#">Contact</a>
+                          <a href="acc_page">Профиль</a>
+                          <a href="mail_page">Почта</a>
+                          <a href="search_page">Поиск</a>
+                          <a href="settings">Настройки</a>
+                          <a href="/logout">Выйти</a>
                         </div>
                     </header>
                     <form action="" method="post" novalidate enctype=multipart/form-data>
@@ -159,10 +160,20 @@ body {margin:0; background-color: #fff}
                     </div>
                       {{ form.hidden_tag() }}
                     <div id="Наташа" class="tabcontent">
-                      <h3>Полученные Сообщения</h3>
+                      <h3>Чат</h3>
                       <p> {{ messages_gotten }} </p>
                     </div>
                           </form>
-              
+              <script type="text/javascript">
+                    /* Set the width of the side navigation to 250px */
+                    function openNav() {
+                        document.getElementById("mySidenav").style.width = "250px";
+                    }
+                    
+                    /* Set the width of the side navigation to 0 */
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+                    }
+                  </script>
                   </body>
                 </html>

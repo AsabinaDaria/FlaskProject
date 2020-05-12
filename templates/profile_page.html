@@ -15,25 +15,29 @@
                   <body>
                     <header>
                         <nav class="navbar navbar-dark bg-dark">
-                            <a class="navbar-brand"><img src={{file}} alt="здесь должна была быть картинка, но не нашлась" style="width: 50px; height: 50px; text-align: right; border-radius: 50%;"> {{name}} {{surname}}</a><span onclick="openNav()" style='text-align: right; color: #f1f1f1;'>⚙</span>
+                            <a class="navbar-brand"><img src={{file}} alt='Nope' style="width: 50px; height: 50px; text-align: right; border-radius: 50%;"> {{name}} {{surname}}</a><span onclick="openNav()" style='text-align: right; color: #f1f1f1;'>⚙</span>
                         </nav>
                         <div class="icon-bar">
                           <a class="active" href=""></a> 
                           <a href='mail_page'></a> 
                           <a href="search_page"></a>
                         </div>
-
+                        <div id="mySidenav" class="sidenav">
+                          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                          <a href="acc_page">Профиль</a>
+                          <a href="mail_page">Почта</a>
+                          <a href="search_page">Поиск</a>
+                          <a href="settings">Настройки</a>
+                          <a href="/logout">Выйти</a>
+                        </div>
                     </header>
-                    <button class="accordion">Статус</button>
+                    <button class="accordion">О себе</button>
                     <div class="panel">
                       <p>{{about}}</p>
                     </div>
-                    <button class="accordion">Мысли</button>
-                    <div class="panel">
-                      <p>Слушай, Димас, у меня сдача проекта завтра, а я нихуя не сделала, так что не зли меня</p>
-                    </div>
                     <button class="accordion">Фото</button>
                     <!-- Container for the image gallery -->
+                     {% if count != 0 %}
                       <div class="container">
 
                       <!-- Full-width images with number text -->
@@ -41,35 +45,39 @@
                       {% for i in count %}
                       <div class="mySlides">
                         <div class="numbertext">{{i}} / {{count[-1]}}</div>
-                          <img src={{users_files[i-1]}} style="width:50%">
+                          <img src={{users_files[i-1]}} style="width:100%">
                       </div>
                       {% endfor %}
                       </ul>
                       <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                       <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                    
-                      <!-- Image text -->
-                      <div class="caption-container">
-                        <p id="caption"></p>
-                      </div>
                       <ul>
-                      {% for i in count %}
-                        <div class="row">
-                          <div class="column">
-                            <img class="demo cursor" src={{users_files[i-1]}} style="width:100%" onclick="currentSlide({{ i }})" alt='MEME'>
-                          </div>
-                      {% endfor %}
                       </ul>
                       </div>
-
+                      {% else %}
+                      <div class="panel">
+                      <p>Нет ни одной фотографии</p>
+                    </div>
+                      {% endif %}
                     <div id="mySidenav" class="sidenav">
                       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                      <a href="#">About</a>
-                      <a href="#">Services</a>
-                      <a href="#">Clients</a>
-                      <a href="/">Logout</a>
+                          <a href="acc_page">Профиль</a>
+                          <a href="mail_page">Почта</a>
+                          <a href="search_page">Поиск</a>
+                          <a href="#">Изменить параметры аккаунта</a>
+                          <a href="/">Выйти</a>
                     </div>
-
+                    <script type="text/javascript">
+                    /* Set the width of the side navigation to 250px */
+                    function openNav() {
+                        document.getElementById("mySidenav").style.width = "250px";
+                    }
+                    
+                    /* Set the width of the side navigation to 0 */
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+                    }
+                  </script>
 
 
                     <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}">

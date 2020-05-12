@@ -9,7 +9,7 @@
           crossorigin="anonymous">
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
           <link rel="stylesheet" type='text/css' href="{{url_for('static', filename='css/style4.css')}}">
-                <title>{{title}}</title>
+                    <title>{{title}}</title>
                   </head>
                   <body>
                     <header>
@@ -17,30 +17,22 @@
                             <a class="navbar-brand"><img src={{file}} alt="здесь должна была быть картинка, но не нашлась" style="width: 50px; height: 50px; text-align: right; border-radius: 50%;"> {{name}} {{surname}}</a><span onclick="openNav()" style='text-align: right; color: #f1f1f1;'>⚙</span>
                         </nav>
                         <div class="icon-bar">
-                          <a href="acc_page"></a> 
-                          <a href='mail_page'></a> 
-                          <a class="active" href="search_page"></a>
+                          <a href="../acc_page"></a> 
+                          <a href='../mail_page'></a> 
+                          <a class="active" href="../search_page"></a>
                         </div>
                         <div id="mySidenav" class="sidenav">
                           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                          <a href="acc_page">Профиль</a>
-                          <a href="mail_page">Почта</a>
-                          <a href="search_page">Поиск</a>
-                          <a href="settings">Настройки</a>
+                          <a href="../acc_page">Профиль</a>
+                          <a href="../mail_page">Почта</a>
+                          <a href="../search_page">Поиск</a>
+                          <a href="../settings">Настройки</a>
                           <a href="/logout">Выйти</a>
                         </div>
                     </header> 
-                    <form action="" method="post" novalidate enctype=multipart/form-data>
-                    <div class="tab">
-                      <p>{{ form.searchform(class="form-control", type="text", placeholder="Напишите адрес и узнайте дополнительную информацию об этом месте!") }}</p>
-                      {{ form.submit(type="submit", value="Пуск", class="btn btn-dark") }}
-                    </div>
-                      {{ form.hidden_tag() }}
-                    <div id="Наташа" class="tabcontent">
-                      <h3></h3>
-                      <p></p>
-                    </div>
-                          </form>
+                    <p>{{ toponym_address }}</p>
+                    <p>{{ toponym_coodrinates }}</p>
+                    <p>{{ postal_code }}</p>
                   <script type="text/javascript">
                     /* Set the width of the side navigation to 250px */
                     function openNav() {

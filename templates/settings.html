@@ -8,8 +8,8 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-          <link rel="stylesheet" type='text/css' href="{{url_for('static', filename='css/style4.css')}}">
-                <title>{{title}}</title>
+          <link rel="stylesheet" type='text/css' href="{{url_for('static', filename='css/style3.css')}}">
+<title>{{title}}</title>
                   </head>
                   <body>
                     <header>
@@ -19,7 +19,7 @@
                         <div class="icon-bar">
                           <a href="acc_page"></a> 
                           <a href='mail_page'></a> 
-                          <a class="active" href="search_page"></a>
+                          <a href="search_page"></a>
                         </div>
                         <div id="mySidenav" class="sidenav">
                           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -30,18 +30,52 @@
                           <a href="/logout">Выйти</a>
                         </div>
                     </header> 
-                    <form action="" method="post" novalidate enctype=multipart/form-data>
-                    <div class="tab">
-                      <p>{{ form.searchform(class="form-control", type="text", placeholder="Напишите адрес и узнайте дополнительную информацию об этом месте!") }}</p>
-                      {{ form.submit(type="submit", value="Пуск", class="btn btn-dark") }}
-                    </div>
-                      {{ form.hidden_tag() }}
-                    <div id="Наташа" class="tabcontent">
-                      <h3></h3>
-                      <p></p>
-                    </div>
-                          </form>
-                  <script type="text/javascript">
+<p><h1>Настройки</h1></p>
+<form action="" method="post" novalidate enctype=multipart/form-data>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}
+        {{ form.name(class="form-control", placeholder="Изменить имя") }}
+    </p>
+    <p>
+        {{ form.surname.label }}
+        {{ form.surname(class="form-control", placeholder="Изменить фамилию") }}
+        </p>
+    <p>
+        {{ form.login.label }}
+        {{ form.login(class="form-control", type="email", placeholder="Изменить адрес почты" ) }}
+        {% for error in form.login.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}
+        {{ form.password(class="form-control", type="password") }}
+                {% for error in form.password.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        О себе
+        {{ form.about(class="form-control", сols="40", rows="3") }}<br>
+    </p>
+    <p>
+      For profile Gallery
+        {{ form.file.label }}
+        {{ form.file(type="file", class="form-control-file") }}<br>
+    </p>
+    <p>
+        {{ form.sex.label }}<br>
+        {{ form.sex(class="form-group") }}
+    </p>
+    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    {{ form.submit(type="reset", value="Очистить поля для входа", class="btn btn-dark") }}
+    {{ form.submit(type="submit", value="Подтвердить изменения", class="btn btn-dark") }}
+    <script type="text/javascript">
                     /* Set the width of the side navigation to 250px */
                     function openNav() {
                         document.getElementById("mySidenav").style.width = "250px";
@@ -51,6 +85,7 @@
                     function closeNav() {
                         document.getElementById("mySidenav").style.width = "0";
                     }
-                  </script>                   
-                  </body>
+                  </script>
+</form>
+</body>
                 </html>
