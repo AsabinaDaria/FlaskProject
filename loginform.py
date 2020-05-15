@@ -3,7 +3,6 @@ from wtforms import *
 from wtforms.validators import *
 from flask import *
 from flask_bootstrap import Bootstrap
-from main import *
 from data import db_session
 from flask import *
 from data.db_session import *
@@ -17,16 +16,19 @@ from flask_wtf.file import *
 from werkzeug.utils import *
 import hashlib
 import binascii
-import os
 import sqlite3
 from sqlalchemy.orm import sessionmaker
-from main import *
 import random
+#from flask_ngrok import run_with_ngrok
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 Bootstrap(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ff.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
+#run_with_ngrok(app)
 
 
 # класс с формой для регистрации
@@ -122,13 +124,16 @@ def index():
                 user_me = DBsession.query(User).filter_by(
                     login=form.login.data).first()
                 user_id = user_me.id
-                if session.get('logged_in') == [0]:
+                if "logged_in" not in session:
                     session['logged_in'] = [user_data.id]
                 else:
-                    the_order_list = session['logged_in']
-                    the_order_list.append(user_data.id)
-                    session['logged_in'] = the_order_list
-                # переадресация на профиль, если введенные данные верны
+                    if session.get('logged_in') == [0]:
+                        session['logged_in'] = [user_data.id]
+                    else:
+                        the_order_list = session['logged_in']
+                        the_order_list.append(user_data.id)
+                        session['logged_in'] = the_order_list
+                    # переадресация на профиль, если введенные данные верны
                 return redirect(url_for('account_page', user_id=user_id))
             else:
                 return render_template('home.html', title='Вход', form=form, message="Неверно указан пароль")
@@ -201,7 +206,6 @@ def account_page(user_id):
     user_me = DBsession.query(User).filter(User.id == user_id).first()
     users_files = [url_for('static', filename=str('img/' + str(user.file)))
                    for user in DBsession.query(Users_pictures).filter(Users_pictures.user_id == user_id)]
-    print(users_files)
     count = [i for i in range(1, len(users_files) + 1)]
     if len(users_files) == 0:
         count = 0
@@ -421,7 +425,10 @@ def settings(user_id):
         surname = user_me.surname
         about = user_me.about
         sex = user_me.sex
-        filename = str('img/' + str(user_id) + '.jpg')
+        if str(user_me.file) != str(user_id):
+            filename = str('img/' + str(user_id) + '.jpg')
+        else:
+            filename = str('img/' + str(0) + '.jpg')        
         return render_template('settings.html', title=name, name=name, surname=surname, file=url_for('static', filename=filename), about=about, sex=sex, user_id=user_id, form=form)
     return redirect('/')
 
